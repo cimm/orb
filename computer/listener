@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << './lib'
+require 'argument_parser.rb'
+require 'weather_parser.rb'
+require 'orb.rb'
+
+ARGV << "-h" if ARGV.empty?
+options = ArgumentParser.parse(ARGV)
+
+orb = Orb.new(options.port)
+if WeatherParser.nice_weather?(options.location)
+  orb.green(:on)
+else
+  orb.green(:off)
+end
+orb.close
