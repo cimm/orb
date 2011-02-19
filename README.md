@@ -10,12 +10,12 @@ This project is under construction. In it's current state it will read the weath
 
 1. Clone the repo
 2. Send the Orb.pde sketch to the Arduino board
-3. Keep the USB cable connected and run the listener script
+3. Keep the USB cable connected and run the orbifier script
 
-## Listener
+## Orbifier
 
 Weather forecast for Brussels, Belgium:
 
-    ./listener -p /usb/tty.usbmodem441 -l 968019
+    ./orbifier -p /usb/tty.usbmodem441 -l 968019
 
 You can find the USB port you need in the Arduino editor, it's the same one as the one you use to upload sketches. The second parameter is the Yahoo! Weather WOEID for the location you want. You can find the WOEID in the Yahoo! Weather URL, eg. [Brussels](http://weather.yahoo.com/belgium/capital-region-of-brussels/brussels-968019/).

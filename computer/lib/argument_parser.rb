@@ -19,7 +19,7 @@ class ArgumentParser
 
   def self.main_arguments
     OptionParser.new do |opts|
-      opts.banner = "Usage: ./listener PARSER [ARGS] [-h|--help]"
+      opts.banner = "Usage: ./orbifier PARSER [ARGS] [-h|--help]"
       opts.separator ""
       opts.separator "Available commands:"
       opts.separator "   weather\tWeather forecast for a given location"
@@ -29,7 +29,7 @@ class ArgumentParser
 
   def self.weather_arguments
     OptionParser.new do |opts|
-      opts.banner = "Usage: ./listener weather -p|--port PORT -l|--location WOID [-h|--help]"
+      opts.banner = "Usage: ./orbifier weather -p|--port PORT -l|--location WOID [-h|--help]"
       opts.separator ""
       opts.on("-p", "--port PORT", "The USB port used to connect with the Arduino bord") do |port|
         options.port = port
@@ -42,7 +42,7 @@ class ArgumentParser
 
   def self.delay_arguments
     OptionParser.new do |opts|
-      opts.banner = "Usage: ./listener delay -p|--port PORT -f|--from STATION -t|--to STATION [-h|--help]"
+      opts.banner = "Usage: ./orbifier delay -p|--port PORT -f|--from STATION -t|--to STATION [-h|--help]"
       opts.separator ""
       opts.on("-p", "--port PORT", "The USB port used to connect with the Arduino bord") do |port|
         options.port = port
