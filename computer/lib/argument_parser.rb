@@ -23,20 +23,20 @@ class ArgumentParser
       opts.banner = "Usage: ./orbifier PARSER [ARGS] [-h|--help]"
       opts.separator ""
       opts.separator "Available commands:"
-      opts.separator "   weather\tWeather forecast for a given location"
+      opts.separator "   weather\tWeather forecast for a given city"
       opts.separator "   delay\tNext delay for a given Belgian train connection"
     end
   end
 
   def self.weather_arguments
     OptionParser.new do |opts|
-      opts.banner = "Usage: ./orbifier weather -p|--port PORT -l|--location WOID [-h|--help]"
+      opts.banner = "Usage: ./orbifier weather -p|--port PORT -c|--city WOEID [-h|--help]"
       opts.separator ""
       opts.on("-p", "--port PORT", "The USB port used to connect with the Arduino bord") do |port|
         options.port = port
       end
-      opts.on("-l", "--location YAHOO_WOEID", "Weather forecast at the given Yahoo! WOEID (eg. 966989 for Beauvechain)") do |location|
-        options.location = location
+      opts.on("-c", "--city WOEID", "Weather forecast at the given Yahoo! WOEID (eg. 966989 for Beauvechain)") do |city|
+        options.city = city
       end
     end
   end

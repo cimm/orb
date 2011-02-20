@@ -3,18 +3,18 @@ require 'open-uri'
 require 'parser'
 
 class WeatherParser < Parser
-  def self.green?(location)
-    raise ArgumentError, "Missing location" if location.nil?
-    code = find_weather_code(location)
+  def self.green?(city)
+    raise ArgumentError, "Missing city" if city.nil?
+    code = find_weather_code(city)
     fair_conditions?(code)
   end
 
   private
 
-  def self.find_weather_code(location)
-    yahoo_weather_feed = "http://weather.yahooapis.com/forecastrss?w=#{location}"
+  def self.find_weather_code(city)
+    yahoo_weather_feed = "http://weather.yahooapis.com/forecastrss?w=#{city}"
     weather_doc = Nokogiri::XML(open(yahoo_weather_feed))
-    raise IOError, "Location not found" if weather_doc.xpath("//title").first.to_s == "City not found"
+    raise IOError, "City not found" if weather_doc.xpath("//title").first.to_s == "City not found"
     # cache_time = weather_doc.xpath("//ttl/@code").to_s.to_i # TODO Yahoo asks to cache this feed for ttl minutes
     codes = weather_doc.xpath("//yweather:forecast/@code")
     raise IOError, "No weather codes received" if codes.empty?
