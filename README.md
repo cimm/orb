@@ -11,9 +11,10 @@ This project is under construction. In it's current state it will:
 
 ## Install
 
-1. Clone the repo
-2. Send the Orb.pde sketch to the Arduino board
-3. Keep the USB cable connected and run the orbifier script
+1. Install Ruby 1.9.2 (may work on older versions but didn't bother to test)
+2. Clone the repo
+3. Send the Orb.pde sketch to the Arduino board
+4. Keep the USB cable connected and run the orbifier script
 
 ## Orbifier script
 
