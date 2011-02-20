@@ -1,5 +1,4 @@
-require 'nokogiri'
-require 'open-uri'
+require 'parser'
 
 class WeatherParser < Parser
   FEED_BASE = "http://weather.yahooapis.com/forecastrss?w="

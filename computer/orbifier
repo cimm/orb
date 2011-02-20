@@ -1,13 +1,8 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH << './app'
 $LOAD_PATH << './lib'
-
-require 'argument_parser'
-require 'parser'
-require 'weather_parser'
-require 'delay_parser'
-require 'orb'
+$LOAD_PATH << './app'
+Dir["./app/*.rb"].each { |file| require file }
 
 options = ArgumentParser.parse(ARGV)
 

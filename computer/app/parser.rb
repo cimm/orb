@@ -1,3 +1,6 @@
+require 'nokogiri'
+require 'open-uri'
+
 class Parser
   def initialize(*args)
     raise NotImplementedError

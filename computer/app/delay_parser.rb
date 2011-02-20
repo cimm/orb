@@ -1,5 +1,4 @@
-require 'nokogiri'
-require 'open-uri'
+require 'parser'
 
 class DelayParser < Parser
   FEED_BASE = "http://api.irail.be/connections/?"
