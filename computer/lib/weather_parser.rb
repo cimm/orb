@@ -4,6 +4,7 @@ require 'parser'
 
 class WeatherParser < Parser
   def self.green?(location)
+    raise ArgumentError, "Missing location" if location.nil?
     code = find_weather_code(location)
     fair_conditions?(code)
   end
@@ -13,9 +14,11 @@ class WeatherParser < Parser
   def self.find_weather_code(location)
     yahoo_weather_feed = "http://weather.yahooapis.com/forecastrss?w=#{location}"
     weather_doc = Nokogiri::XML(open(yahoo_weather_feed))
+    raise IOError, "Location not found" if weather_doc.xpath("//title").first.to_s == "City not found"
     # cache_time = weather_doc.xpath("//ttl/@code").to_s.to_i # TODO Yahoo asks to cache this feed for ttl minutes
-    weather_doc.xpath("//yweather:forecast/@code").first.to_s.to_i
-    # TODO Raise if not found
+    codes = weather_doc.xpath("//yweather:forecast/@code")
+    raise IOError, "No weather codes received" if codes.empty?
+    codes.first.to_s.to_i
   end
   
   def self.fair_conditions?(code)
@@ -68,7 +71,7 @@ class WeatherParser < Parser
       when 45 then return false # thundershowers
       when 46 then return false # snow showers
       when 47 then return false # isolated thundershowers
-      else return false # not available or gibberish
+      else raise ArgumentError, "Invalid weather code"
     end
   end
 end
