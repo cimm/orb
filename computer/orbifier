@@ -4,17 +4,18 @@ $LOAD_PATH << './app'
 $LOAD_PATH << './lib'
 
 require 'argument_parser'
+require 'parser'
 require 'weather_parser'
 require 'delay_parser'
 require 'orb'
 
 options = ArgumentParser.parse(ARGV)
 
-green = case options[:parser]
-  when "weather" then WeatherParser.green?(options[:city])
-  when "delay" then DelayParser.green?(options[:origin], options[:destination])
+parser = case options[:parser]
+  when "weather" then WeatherParser.new(options[:city])
+  when "delay" then DelayParser.new(options[:origin], options[:destination])
 end
 
 orb = Orb.new(options.port)
-green ? orb.green(:on) : orb.green(:off)
+parser.green? ? orb.green(:on) : orb.green(:off)
 orb.close

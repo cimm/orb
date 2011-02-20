@@ -1,28 +1,55 @@
 require 'nokogiri'
 require 'open-uri'
-require 'parser'
 
 class WeatherParser < Parser
-  def self.green?(city)
+  FEED_BASE = "http://weather.yahooapis.com/forecastrss?w="
+
+  def initialize(city)
     raise ArgumentError, "Missing city" if city.nil?
-    code = find_weather_code(city)
-    fair_conditions?(code)
+    @city = city
+  end
+
+  def green?
+    refresh if cache_expired?
+    fair_conditions?
+  end
+
+  def cache_expired?
+    if @expires_at
+      Time.now > @expires_at
+    else
+      true
+    end
   end
 
   private
 
-  def self.find_weather_code(city)
-    yahoo_weather_feed = "http://weather.yahooapis.com/forecastrss?w=#{city}"
-    weather_doc = Nokogiri::XML(open(yahoo_weather_feed))
+  def refresh
+    weather_doc = load_feed
+    set_cache(weather_doc)
+    @code = find_weather_code(weather_doc)
+  end
+
+  def load_feed
+    weather_feed = FEED_BASE + @city.to_s
+    weather_doc = Nokogiri::XML(open(weather_feed))
     raise IOError, "City not found" if weather_doc.xpath("//title").first.to_s == "City not found"
-    # cache_time = weather_doc.xpath("//ttl/@code").to_s.to_i # TODO Yahoo asks to cache this feed for ttl minutes
+    weather_doc
+  end
+
+  def find_weather_code(weather_doc)
     codes = weather_doc.xpath("//yweather:forecast/@code")
     raise IOError, "No weather codes received" if codes.empty?
     codes.first.to_s.to_i
   end
-  
-  def self.fair_conditions?(code)
-    case code
+
+  def set_cache(weather_doc)
+    duration = weather_doc.xpath("//ttl/text()").to_s.to_i
+    @expires_at = Time.now + (duration * 60)
+  end
+
+  def fair_conditions?
+    case @code
       when 0 then return false # tornado
       when 1 then return false # tropical storm
       when 2 then return false # hurricane
