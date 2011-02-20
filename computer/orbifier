@@ -16,6 +16,6 @@ parser = case options[:parser]
   when "delay" then DelayParser.new(options[:origin], options[:destination])
 end
 
-orb = Orb.new(options.port)
+orb = Orb.new(options[:port])
 parser.green? ? orb.green(:on) : orb.green(:off)
-orb.close
+orb.close # Will reset Arduino
