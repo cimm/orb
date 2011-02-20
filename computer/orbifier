@@ -10,7 +10,7 @@ require 'orb'
 
 options = ArgumentParser.parse(ARGV)
 
-green = case ARGV.first
+green = case options[:parser]
   when "weather" then WeatherParser.green?(options[:city])
   when "delay" then DelayParser.green?(options[:origin], options[:destination])
 end

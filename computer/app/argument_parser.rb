@@ -38,6 +38,6 @@ EOS
     Trollop::die :city, "is required" if !cmd_opts[:city_given] && cmd == "weather"
     Trollop::die :origin, "is required" if !cmd_opts[:origin_given] && cmd == "delay"
     Trollop::die :destination, "is required" if !cmd_opts[:destination_given] && cmd == "delay"
-    cmd_opts
+    cmd_opts.merge({:parser => cmd})
   end
 end
