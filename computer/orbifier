@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH << './lib'
+$LOAD_PATH << './app'
 require 'argument_parser'
 require 'weather_parser'
 require 'delay_parser'
