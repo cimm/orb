@@ -23,7 +23,7 @@ class ArgumentParser
       opts.separator ""
       opts.separator "Available commands:"
       opts.separator "   weather\tWeather forecast for a given location"
-      opts.separator "   delay\tNext train delay for a given connection"
+      opts.separator "   delay\tNext delay for a given Belgian train connection"
     end
   end
 
@@ -42,7 +42,7 @@ class ArgumentParser
 
   def self.delay_arguments
     OptionParser.new do |opts|
-      opts.banner = "Usage: ./orbifier delay -p|--port PORT -f|--from STATION -t|--to STATION [-h|--help]"
+      opts.banner = "Usage: ./orbifier delay -p|--port PORT -o|--origin STATION -d|--destination STATION [-h|--help]"
       opts.separator ""
       opts.on("-p", "--port PORT", "The USB port used to connect with the Arduino bord") do |port|
         options.port = port
