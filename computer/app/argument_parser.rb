@@ -1,59 +1,43 @@
-require 'ostruct'
-require 'optparse'
+require 'trollop'
 
 class ArgumentParser
-  # TODO Find something for required arguments
-  def self.parse(args)
-    options = OpenStruct.new
-    opts = case args.first
-      when "weather" then weather_arguments
-      when "delay" then delay_arguments
-      else main_arguments
-    end
-    opts.parse!(args)
-    unless args.include?("-h") || args.include?("--help")
-      puts opts
-      # TODO Only show output when needed and quit afterwards
-    end
-    options
-  end
+  SUB_COMMANDS = %w(weather delay)
 
-  def self.main_arguments
-    OptionParser.new do |opts|
-      opts.banner = "Usage: ./orbifier PARSER [ARGS] [-h|--help]"
-      opts.separator ""
-      opts.separator "Available commands:"
-      opts.separator "   weather\tWeather forecast for a given city"
-      opts.separator "   delay\tNext delay for a given Belgian train connection"
-    end
-  end
+  def self.parse(argv)
+    argv << "-h" if argv.empty?
+    global_opts = Trollop::options do
+      banner <<-EOS
+Usage: ./orbifier PARSER [ARGS] [-h|--help]
 
-  def self.weather_arguments
-    OptionParser.new do |opts|
-      opts.banner = "Usage: ./orbifier weather -p|--port PORT -c|--city WOEID [-h|--help]"
-      opts.separator ""
-      opts.on("-p", "--port PORT", "The USB port used to connect with the Arduino bord") do |port|
-        options.port = port
-      end
-      opts.on("-c", "--city WOEID", "Weather forecast at the given Yahoo! WOEID (eg. 966989 for Beauvechain)") do |city|
-        options.city = city
-      end
-    end
-  end
+Available parsers:
+  weather:\tWeather forecast for a given city
+  delay:\tDelay for the next given Belgian train connection
 
-  def self.delay_arguments
-    OptionParser.new do |opts|
-      opts.banner = "Usage: ./orbifier delay -p|--port PORT -o|--origin STATION -d|--destination STATION [-h|--help]"
-      opts.separator ""
-      opts.on("-p", "--port PORT", "The USB port used to connect with the Arduino bord") do |port|
-        options.port = port
-      end
-      opts.on("-o", "--origin STATION", "Name of the Belgian station of orgin (eg. Leuven)") do |origin|
-        options.origin = origin
-      end
-      opts.on("-d", "--destination STATION", "Name of the Belgian destination station (eg. Kortrtijk)") do |destination|
-        options.destination = destination
-      end
+Global options:
+EOS
+      stop_on SUB_COMMANDS
     end
+    cmd = argv.shift
+    cmd_opts = case cmd
+      when "weather"
+        Trollop::options do
+          puts "Usage: ./orbifier weather -p|--port PORT -c|--city WOEID [-h|--help]\n\n" # TODO Should be banner here
+          opt :port, "The USB port used to connect with the Arduino bord", :type => :string
+          opt :city, "Weather forecast for this city as a Yahoo! WOEID (eg. 966989 for Beauvechain)", :type => :int
+        end
+      when "delay"
+        Trollop::options do
+          puts "Usage: ./orbifier delay -p|--port PORT -o|--origin STATION -d|--destination STATION [-h|--help]\n\n" # TODO Should be banner here
+          opt :port, "The USB port used to connect with the Arduino bord", :type => :string
+          opt :origin, "Name of a Belgian station of origin (eg. Leuven)", :type => :string
+          opt :destination, "Name of a Belgian destination station (eg. Wavre)", :type => :string
+        end
+      else Trollop::die "Unknown parser #{cmd.inspect}"
+    end
+    Trollop::die :port, "is required" if !cmd_opts[:port_given]
+    Trollop::die :city, "is required" if !cmd_opts[:city_given] && cmd == "weather"
+    Trollop::die :origin, "is required" if !cmd_opts[:origin_given] && cmd == "delay"
+    Trollop::die :destination, "is required" if !cmd_opts[:destination_given] && cmd == "delay"
+    cmd_opts
   end
 end
