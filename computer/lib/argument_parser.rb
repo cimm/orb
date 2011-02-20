@@ -13,6 +13,7 @@ class ArgumentParser
     opts.parse!(args)
     unless args.include?("-h") || args.include?("--help")
       puts opts
+      # TODO Only show output when needed and quit afterwards
     end
     options
   end

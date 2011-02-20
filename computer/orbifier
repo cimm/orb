@@ -1,23 +1,19 @@
 #!/usr/bin/env ruby
 
 $LOAD_PATH << './lib'
-require 'argument_parser.rb'
-require 'weather_parser.rb'
-require 'train_parser.rb'
-require 'orb.rb'
+require 'argument_parser'
+require 'weather_parser'
+require 'delay_parser'
+require 'orb'
 
 ARGV << "-h" if ARGV.empty?
 options = ArgumentParser.parse(ARGV)
 
-green = case ARGV.first # TODO
-  when "weather" then WeatherParser.nice_weather?(options.location)
-  when "delay" then TrainParser.delayed?(options.origin, options.destination)
+green = case ARGV.first
+  when "weather" then WeatherParser.green?(options.location)
+  when "delay" then DelayParser.green?(options.origin, options.destination)
 end
 
 orb = Orb.new(options.port)
-if green
-  orb.green(:on)
-else
-  orb.green(:off)
-end
+green ? orb.green(:on) : orb.green(:off)
 orb.close

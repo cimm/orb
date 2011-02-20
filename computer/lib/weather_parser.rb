@@ -1,8 +1,9 @@
 require 'nokogiri'
 require 'open-uri'
+require 'parser'
 
-class WeatherParser
-  def self.nice_weather?(location)
+class WeatherParser < Parser
+  def self.green?(location)
     code = find_weather_code(location)
     fair_conditions?(code)
   end
@@ -12,10 +13,8 @@ class WeatherParser
   def self.find_weather_code(location)
     yahoo_weather_feed = "http://weather.yahooapis.com/forecastrss?w=#{location}"
     weather_doc = Nokogiri::XML(open(yahoo_weather_feed))
-    cache_time = weather_doc.xpath("//ttl/@code").to_s.to_i # TODO Yahoo asks to cache this feed for ttl minutes
-    code = weather_doc.xpath("//yweather:forecast/@code").first.to_s.to_i
-    puts "Weather code: #{code}" # DEBUG
-    code
+    # cache_time = weather_doc.xpath("//ttl/@code").to_s.to_i # TODO Yahoo asks to cache this feed for ttl minutes
+    weather_doc.xpath("//yweather:forecast/@code").first.to_s.to_i
     # TODO Raise if not found
   end
   
