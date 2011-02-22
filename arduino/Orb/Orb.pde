@@ -1,22 +1,25 @@
 // Accepts a one char input from a serial connection
 // G or R means green or red on, g or r means green or red off
 
-int ledPin = 13;
+int greenPin = 10;
+int redPin = 12;
 
 void setup() {
   Serial.begin(9600);
-  pinMode(ledPin, OUTPUT);     
+  pinMode(greenPin, OUTPUT);
+  pinMode(redPin, OUTPUT);
 }
 
 void loop() {
   if (Serial.available() > 0) {
-    char value = Serial.read();
-    if (value == 'G') {
-      digitalWrite(ledPin, HIGH); 
+    char input = Serial.read();
+    if (input == 'G') {
+      digitalWrite(greenPin, HIGH);
+      digitalWrite(redPin, LOW);
     } else {
-      digitalWrite(ledPin, LOW); 
+      digitalWrite(greenPin, LOW);
+      digitalWrite(redPin, HIGH);
     }
-     Serial.println(value);
   }
   delay(1000);
 }

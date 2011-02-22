@@ -16,7 +16,6 @@ class Orb
   end
 
   def red(status)
-    # TODO Don't have any red LEDs at the moment :(
     update("r", status)
   end
 
