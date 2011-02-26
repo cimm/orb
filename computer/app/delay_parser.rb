@@ -12,7 +12,7 @@ class DelayParser < Parser
 
   def green?
     connections_doc = load_feed
-    delay(connections_doc) > 0 ? true : false
+    delay(connections_doc) > 0 ? false : true
   end
 
   private
