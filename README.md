@@ -4,17 +4,22 @@ A small DIY project to build an internet connected lamp that can change colors d
 
 ## Status
 
-This project is under construction. In it's current state it will:
+This project is still under construction. In it's current state it will:
 
-* Read the weather forecast from Yahoo! Weather for a given city and light the on-board Arduino LED when the forecast looks fair. It will turn off the LED if it looks bad.
-* Read the delay for the next given Belgian train connection and turn the on-board Arduino LED on when the train is delayed. It will turn off the LED if no delays are found.
+* Read the weather forecast from Yahoo! Weather for a given city and trun green when the forecast looks fair. It will turn red if it looks bad.
+* Read the delay for the next given Belgian train connection and turn red when the train is delayed. It will turn green if no delays are found.
 
 ## Install
 
 1. Install Ruby 1.9.2 (may work on older versions but didn't bother to test)
 2. Clone the repo
 3. Send the Orb.pde sketch to the Arduino board
-4. Keep the USB cable connected and run the orbifier script
+4. Wire the breadboard according to the schema below
+5. Keep the USB cable connected and run the orbifier script
+
+## Wiring schema
+
+![Arduing and breadboard wiring schema](https://github.com/cimm/orb/raw/master/schema.png)
 
 ## Orbifier script
 
