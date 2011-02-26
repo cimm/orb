@@ -1,10 +1,12 @@
 require 'serialport'
+require 'logger'
 
 class Orb
   def initialize(port)
     begin
       @serial = SerialPort.new(port, 9600, 8, 1, SerialPort::NONE) # will reset the Arduino
       sleep(5)
+      Logger.log("Connection open")
     rescue
       puts "Could not open serial port: #{port}"
       exit(1)
@@ -21,6 +23,7 @@ class Orb
 
   def close
     @serial.close # will reset the Arduino
+    Logger.log("Connection closed")
   end
 
   private
@@ -29,11 +32,19 @@ class Orb
     # G or R means green or red on, g or r means green or red off
     if status == :on
       @serial.write color.upcase
-      puts "LED #{color} ON" # DEBUG
+      Logger.log("#{color_name(color)} LED turned on")
     else
       @serial.write color.downcase
-      puts "LED #{color} OFF" # DEBUG
+      Logger.log("#{color_name(color)} LED turned off")
     end
     sleep(10) # TODO Connection has to stay open or the Arduino will reset
+  end
+
+  def color_name(color)
+    if color.casecmp("g") == 0
+      return "Green"
+    elsif color.casecmp("r") == 0
+      return "Red"
+    end
   end
 end

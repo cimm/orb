@@ -9,7 +9,10 @@ class WeatherParser < Parser
   end
 
   def green?
-    refresh if cache_expired?
+    if cache_expired?
+      Logger.log("Weather cache expired")
+      refresh
+    end
     fair_conditions?
   end
 
@@ -27,6 +30,7 @@ class WeatherParser < Parser
     weather_doc = load_feed
     set_cache(weather_doc)
     @code = find_weather_code(weather_doc)
+    Logger.log("Weather code set to #{@code}")
   end
 
   def load_feed
@@ -44,6 +48,7 @@ class WeatherParser < Parser
 
   def set_cache(weather_doc)
     duration = weather_doc.xpath("//ttl/text()").to_s.to_i
+    Logger.log("Weather cache set to #{duration} minutes")
     @expires_at = Time.now + (duration * 60)
   end
 

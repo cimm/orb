@@ -7,7 +7,7 @@ class ArgumentParser
     argv << "-h" if argv.empty?
     global_opts = Trollop::options do
       banner <<-EOS
-Usage: ./orbifier PARSER [ARGS] [-h|--help]
+Usage: ./orbifier PARSER [ARGS] [-h|--help] [-v|--verbose]
 
 Available parsers:
   weather:\tWeather forecast for a given city
@@ -15,22 +15,25 @@ Available parsers:
 
 Global options:
 EOS
+      opt :verbose, "Verbose mode will print debug messages"
       stop_on SUB_COMMANDS
     end
     cmd = argv.shift
     cmd_opts = case cmd
       when "weather"
         Trollop::options do
-          puts "Usage: ./orbifier weather -p|--port PORT -c|--city WOEID [-h|--help]\n\n" # TODO Should be banner here
+          puts "Usage: ./orbifier weather -p|--port PORT -c|--city WOEID [-h|--help] [-v|--verbose]\n\n" # TODO Should be banner here
           opt :port, "The USB port used to connect with the Arduino bord", :type => :string
           opt :city, "Weather forecast for this city as a Yahoo! WOEID (eg. 966989 for Beauvechain)", :type => :int
+          opt :verbose, "Verbose mode will print debug messages"
         end
       when "delay"
         Trollop::options do
-          puts "Usage: ./orbifier delay -p|--port PORT -o|--origin STATION -d|--destination STATION [-h|--help]\n\n" # TODO Should be banner here
+          puts "Usage: ./orbifier delay -p|--port PORT -o|--origin STATION -d|--destination STATION [-h|--help] [-v|--verbose]\n\n" # TODO Should be banner here
           opt :port, "The USB port used to connect with the Arduino bord", :type => :string
           opt :origin, "Name of a Belgian station of origin (eg. Leuven)", :type => :string
           opt :destination, "Name of a Belgian destination station (eg. Wavre)", :type => :string
+          opt :verbose, "Verbose mode will print debug messages"
         end
       else Trollop::die "Unknown parser #{cmd.inspect}"
     end

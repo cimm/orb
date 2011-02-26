@@ -6,6 +6,8 @@ Dir["./app/*.rb"].each { |file| require file }
 
 options = ArgumentParser.parse(ARGV)
 
+Logger.verbose = true if options[:verbose]
+
 parser = case options[:parser]
   when "weather" then WeatherParser.new(options[:city])
   when "delay" then DelayParser.new(options[:origin], options[:destination])
