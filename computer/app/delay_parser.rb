@@ -13,7 +13,7 @@ class DelayParser < Parser
   def green?
     connections_doc = load_feed
     log_connection(connections_doc)
-    delay(connections_doc) > 0 ? false : true
+    delayed?(connections_doc) ? false : true # Green should be true when delay is false
   end
 
   private
@@ -26,8 +26,12 @@ class DelayParser < Parser
   def delay(connections_doc)
     delays = connections_doc.xpath("//connection/departure/@delay")
     raise IOError, "No delays found" if delays.empty?
-    Logger.log("Connection has a delay of #{delays.first.to_s.to_i} seconds")
+    Logger.log("Connection has a delay of #{delays.first.to_s} seconds")
     delays.first.to_s.to_i
+  end
+
+  def delayed?(connections_doc)
+    delay(connections_doc) > 0
   end
 
   def log_connection(connections_doc)
