@@ -11,6 +11,7 @@ Logger.verbose = true if options[:verbose]
 parser = case options[:parser]
   when "weather" then WeatherParser.new(options[:city])
   when "delay" then DelayParser.new(options[:origin], options[:destination])
+  when "gmail" then GmailParser.new(options[:account], options[:password])
 end
 
 orb = Orb.new(options[:port])
