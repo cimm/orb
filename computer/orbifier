@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'rubygems' # needed for Ruby 1.8
 $LOAD_PATH << './lib'
 $LOAD_PATH << './app'
 Dir["./app/*.rb"].each { |file| require file }
