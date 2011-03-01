@@ -1,7 +1,7 @@
 require 'trollop'
 
 class ArgumentParser
-  SUB_COMMANDS = %w(weather delay gmail)
+  SUB_COMMANDS = %w(weather delay gmail nodeci)
 
   def self.parse(argv)
     argv << "-h" if argv.empty?
@@ -13,6 +13,7 @@ Available parsers:
   weather:\tWeather forecast for a given city
   delay:\tDelay for the next given Belgian train connection
   gmail:\tNew mail in my Gmail inbox
+  nodeci:\tContinious integration build monitor
 
 Global options:
 EOS
@@ -44,6 +45,13 @@ EOS
           opt :password, "Your Gmail password", :type => :string
           opt :verbose, "Verbose mode will print debug messages"
         end
+      when "nodeci"
+        Trollop::options do
+          puts "Usage: ./orbifier nodeci -p|--port PORT -m|--monitor URL [-h|--help] [-v|--verbose]\n\n" # TODO Should be banner here
+          opt :port, "The USB port used to connect with the Arduino bord", :type => :string
+          opt :monitor, "URL to your CI build monitor", :type => :string
+          opt :verbose, "Verbose mode will print debug messages"
+        end
       else Trollop::die "Unknown parser #{cmd.inspect}"
     end
     Trollop::die :port, "is required" if !cmd_opts[:port_given]
@@ -52,6 +60,7 @@ EOS
     Trollop::die :destination, "is required" if !cmd_opts[:destination_given] && cmd == "delay"
     Trollop::die :account, "is required" if !cmd_opts[:account_given] && cmd == "gmail"
     Trollop::die :password, "is required" if !cmd_opts[:password_given] && cmd == "gmail"
+    Trollop::die :monitor, "is required" if !cmd_opts[:monitor_given] && cmd == "nodeci"
     cmd_opts.merge({:parser => cmd})
   end
 end

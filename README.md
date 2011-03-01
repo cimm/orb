@@ -9,6 +9,7 @@ This project is still under construction. In it's current state it will:
 * Read the weather forecast from Yahoo! Weather for a given city and trun green when the forecast looks fair. It will turn red if it looks bad.
 * Read the delay for the next given Belgian train connection and turn red when the train is delayed. It will turn green if no delays are found.
 * Read your Gmail inbox and turn green when you have unread messages. It will turn red if no unread messages are found.
+* Read the last build status from your [Nodeci](https://github.com/jbpros/nodeci) CI monitor and turn green if all tests passed. It will trun red if the monitor returns a broken build.
 
 ## Install
 
@@ -50,3 +51,11 @@ New mails in your Gmail inbox:
     ./orbifier gmail -p /usb/tty.usbmodem441 -a example@gmail.com -s 12345
 
 Important: the password will be visible in your shell history, know what you are doing!
+
+### Nodeci
+
+Build passed or broken status from your Nodeci CI monitor:
+
+    ./orbifier nodeci -p /usb/tty.modem441 -m http://localhost:1234
+
+The monitor parameter accepts a URL for the build monitor location.
