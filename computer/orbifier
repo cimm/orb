@@ -17,5 +17,8 @@ parser = case options[:parser]
 end
 
 orb = Orb.new(options[:port])
-parser.green? ? orb.green(:on) : orb.red(:on)
-orb.close # Will reset Arduino
+while true
+  parser.green? ? orb.green(:on) : orb.red(:on)
+  Logger.log("Sleeping for #{options[:interval]} seconds")
+  sleep options[:interval]
+end

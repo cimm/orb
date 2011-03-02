@@ -37,7 +37,6 @@ class Orb
       @serial.write color.downcase
       Logger.log("#{color_name(color)} LED turned off")
     end
-    sleep(10) # TODO Connection has to stay open or the Arduino will reset
   end
 
   def color_name(color)
