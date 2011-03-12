@@ -5,11 +5,10 @@ class Orb
   def initialize(port)
     begin
       @serial = SerialPort.new(port, 9600, 8, 1, SerialPort::NONE) # will reset the Arduino
-      sleep(5)
+      Kernel.sleep(5)
       Logger.log("Connection open")
     rescue
-      puts "Could not open serial port: #{port}"
-      exit(1)
+      abort "Could not open serial port: #{port}"
     end
   end
 
