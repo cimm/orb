@@ -23,6 +23,6 @@ class NodeciParser < Parser
   end
 
   def last_build_successful?(builds)
-    builds.first['succeeded'] === true
+    builds.first['succeeded'] == true
   end
 end
