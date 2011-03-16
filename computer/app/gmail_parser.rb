@@ -41,7 +41,7 @@ class GmailParser < Parser
 
   def unread_mail_count(unread_doc)
     unread_mail_count = unread_doc.xpath("//xmlns:fullcount/text()").to_s.to_i
-    Logger.log("Found #{unread_mail_count} unread mail(s) for #{@account}")
+    OrbLogger.log("Found #{unread_mail_count} unread mail(s) for #{@account}")
     unread_mail_count
   end
 

@@ -1,6 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
-require 'logger'
+require 'orb_logger'
 
 class Parser
   def initialize(*args)

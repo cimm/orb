@@ -26,7 +26,7 @@ class DelayParser < Parser
   def delay(connections_doc)
     delays = connections_doc.xpath("//connection/departure/@delay")
     raise IOError, "No delays found" if delays.empty?
-    Logger.log("Connection has a delay of #{delays.first.to_s} seconds")
+    OrbLogger.log("Connection has a delay of #{delays.first.to_s} seconds")
     delays.first.to_s.to_i
   end
 
@@ -37,6 +37,6 @@ class DelayParser < Parser
   def log_connection(connections_doc)
     origin = connections_doc.xpath("//connection/departure/station/text()").first.to_s
     destination = connections_doc.xpath("//connection/arrival/station/text()").first.to_s
-    Logger.log("Using connection from #{origin} to #{destination}")
+    OrbLogger.log("Using connection from #{origin} to #{destination}")
   end
 end

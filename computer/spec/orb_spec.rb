@@ -8,7 +8,7 @@ describe 'orb' do
       SerialPort.stub!(:new => serial)
       SerialPort.should_receive(:new).with("/some/port", 9600, 8, 1, SerialPort::NONE).and_return serial
       Kernel.should_receive(:sleep).with(5)
-      Logger.should_receive(:log).with("Connection open")
+      OrbLogger.should_receive(:log).with("Connection open")
       Orb.new("/some/port").should be_an_instance_of(Orb)
     end
 
@@ -26,7 +26,7 @@ describe 'orb' do
     let(:orb) do # TODO Do I really need all this?
       SerialPort.stub!(:new => serial)
       SerialPort.should_receive(:new).with("/some/port", 9600, 8, 1, SerialPort::NONE).and_return serial
-      Logger.should_receive(:log).with("Connection open")
+      OrbLogger.should_receive(:log).with("Connection open")
       Orb.new("/some/port", 0)
     end
 
@@ -46,7 +46,7 @@ describe 'orb' do
     let(:orb) do
       SerialPort.stub!(:new => serial)
       SerialPort.should_receive(:new).with("/some/port", 9600, 8, 1, SerialPort::NONE).and_return serial
-      Logger.should_receive(:log).with("Connection open")
+      OrbLogger.should_receive(:log).with("Connection open")
       Orb.new("/some/port", 0)
     end
 
@@ -66,13 +66,13 @@ describe 'orb' do
     let(:orb) do
       SerialPort.stub!(:new => serial)
       SerialPort.should_receive(:new).with("/some/port", 9600, 8, 1, SerialPort::NONE).and_return serial
-      Logger.should_receive(:log).with("Connection open")
+      OrbLogger.should_receive(:log).with("Connection open")
       Orb.new("/some/port", 0)
     end
 
     it "closes the serial connection" do
       serial.should_receive(:close)
-      Logger.should_receive(:log).with("Connection closed")
+      OrbLogger.should_receive(:log).with("Connection closed")
       orb.close
     end
   end

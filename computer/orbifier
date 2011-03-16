@@ -7,7 +7,7 @@ Dir["./app/*.rb"].each { |file| require file }
 
 options = ArgumentParser.parse(ARGV)
 
-Logger.verbose = true if options[:verbose]
+OrbLogger.verbose = true if options[:verbose]
 
 parser = case options[:parser]
   when "weather" then WeatherParser.new(options[:city])
@@ -19,6 +19,6 @@ end
 orb = Orb.new(options[:port])
 while true
   parser.green? ? orb.green(:on) : orb.red(:on)
-  Logger.log("Sleeping for #{options[:interval]} seconds")
+  OrbLogger.log("Sleeping for #{options[:interval]} seconds")
   sleep options[:interval]
 end
