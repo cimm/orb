@@ -3,11 +3,11 @@ require 'spec_helper'
 describe 'orb logger' do
   describe :verbose= do
     it "sets the verbose flag to true" do
-      OrbLogger.verbose = true # TODO Is this enough for testing a setter method?
+      OrbLogger.verbose = true
     end
 
     it "sets the verbose flag to false" do
-      OrbLogger.verbose = false # TODO Is this enough for testing a setter method?
+      OrbLogger.verbose = false
     end
   end
 
