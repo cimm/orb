@@ -21,10 +21,11 @@ describe 'orb logger' do
 
     it "should print the log message" do
       now = Time.now
+      formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
       OrbLogger.verbose = true
       Time.should_receive(:now).and_return now
-      now.should_receive(:strftime).with('%Y-%m-%d %H:%M:%S')
-      Kernel.should_receive(:puts) # Can't use the message here as I stub Time
+      now.should_receive(:strftime).with('%Y-%m-%d %H:%M:%S').and_return formatted_date
+      Kernel.should_receive(:puts).with("#{formatted_date} - Some log message")
       OrbLogger.log("Some log message")
     end
   end
